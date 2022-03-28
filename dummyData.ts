@@ -8,7 +8,7 @@ export interface EventItem {
     isFeatured: boolean;
 }
 
-interface DateFilter {
+export interface DateFilter {
     year: number;
     month: number;
 }

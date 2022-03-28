@@ -1,26 +1,30 @@
-import type { NextPage } from 'next'
-import { getAllEvents } from '../dummyData'
+import type { NextPage } from 'next';
 import EventList from '../components/events/EventList';
-import EventSearch from '../components/events/EventSearch';
-import { useRouter } from 'next/router';
+import { EventItem } from '../dummyData';
+import { getFeaturedEvents } from '../helpers/api.util';
+interface HomePageProps {
+  featuredEvents: EventItem[]
+}
 
-const HomePage: NextPage = () => {
-  const router = useRouter();
-  const events = getAllEvents();
-
-  const findEventsHandler = (selectedYear: string, selectedMonth: string) => {
-
-    const fullPath = `/events/${selectedYear}/${selectedMonth}`
-
-    router.push(fullPath)
-  }
+const HomePage: NextPage<HomePageProps> = ({ featuredEvents }) => {
 
   return (
     <div>
-      <EventSearch onSearch={findEventsHandler} />
-      <EventList eventsArray={events} />
+      <EventList eventsArray={featuredEvents} />
     </div>
   )
 }
 
 export default HomePage
+
+export const getStaticProps = async () => {
+
+  const featuredEvents = await getFeaturedEvents();
+
+  return {
+    props: {
+      featuredEvents,
+    },
+    revalidate: 1800
+  }
+}

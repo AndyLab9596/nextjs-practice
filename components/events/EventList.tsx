@@ -8,9 +8,14 @@ interface EventListProps {
 }
 
 const EventList: React.FC<EventListProps> = ({ eventsArray }) => {
+
+    if (eventsArray.length === 0 || !eventsArray) {
+        return <p>Loading</p>
+    }
+
     return (
         <ul className={classes.list}>
-            {eventsArray.map(item => <EventItemComponent key={item.id} eventItem={item} />)}
+            {eventsArray?.map(item => <EventItemComponent key={item.id} eventItem={item} />)}
         </ul>
     )
 }
